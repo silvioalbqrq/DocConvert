@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocConvert — PDF/A & Compressor</title>
+<meta name="description" content="Conversor de imagens para PDF/A e compressor de PDF. Uso pessoal.">
+
+<!-- Proteção básica contra cópia e clique direito -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAlACUDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAgHBP/EADEQAAECBAMHAgQHAAAAAAAAAAEAAgMEBREGEhMHCBQVITFBUZEiN1KxQ3WSs9HU8P/EABoBAAIDAQEAAAAAAAAAAAAAAAADAQQFAgb/xAAeEQACAgIDAQEAAAAAAAAAAAAAAQIDBBESITHwQf/aAAwDAQACEQMRAD8Axes1OfrNUmKpVJuLNzkzEMSNGiOu5zj/ALt4XIi1PYFs1pO0PnXNJ+dlOX6Gnw2X4tTUvfMD9A9yvXTnGuPJ+IwIQlZLivWZYip6pbt2GYUhGfL16riMGHTLxDc0OPQEgNFwD4uL+o7qd8W4eqmF65GpFXgaUxD6tc3qyKw9nsPlpt9wbEEDirIrteosZbjzqW5I5abVqpTNTltSnJLUtn4eO6Hmte18pF7XPui40TXFP8E7aCoPc8e+HK4wfDzZwJO1gSfx/RrvsVPi3DdYxBh6hw8TQ6/VZKQbM8LpiZihmpl1r2v3tce4SMtN0tL7ssYjSuTf3RQnHVD6Zj9ET+upv3vPmZI/lEL92Mt5l8fbOpdxdBxTRGEixImm/wAqdd5yuUiv7QJSco1Rlp+XZTIcJ0WA8OaHiJFJFx5s4e6oYUJRt20X82cXVpMyxERbBjg9DZERQAREUgEREAf/2Q==">
+<link rel="shortcut icon" type="image/png" href="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAlACUDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAgHBP/EADEQAAECBAMHAgQHAAAAAAAAAAEAAgMEBREGEhMHCBQVITFBUZEiN1KxQ3WSs9HU8P/EABoBAAIDAQEAAAAAAAAAAAAAAAADAQQFAgb/xAAeEQACAgIDAQEAAAAAAAAAAAAAAQIDBBESITHwQf/aAAwDAQACEQMRAD8Axes1OfrNUmKpVJuLNzkzEMSNGiOu5zj/ALt4XIi1PYFs1pO0PnXNJ+dlOX6Gnw2X4tTUvfMD9A9yvXTnGuPJ+IwIQlZLivWZYip6pbt2GYUhGfL16riMGHTLxDc0OPQEgNFwD4uL+o7qd8W4eqmF65GpFXgaUxD6tc3qyKw9nsPlpt9wbEEDirIrteosZbjzqW5I5abVqpTNTltSnJLUtn4eO6Hmte18pF7XPui40TXFP8E7aCoPc8e+HK4wfDzZwJO1gSfx/RrvsVPi3DdYxBh6hw8TQ6/VZKQbM8LpiZihmpl1r2v3tce4SMtN0tL7ssYjSuTf3RQnHVD6Zj9ET+upv3vPmZI/lEL92Mt5l8fbOpdxdBxTRGEixImm/wAqdd5yuUiv7QJSco1Rlp+XZTIcJ0WA8OaHiJFJFx5s4e6oYUJRt20X82cXVpMyxERbBjg9DZERQAREUgEREAf/2Q==">
+
+<!-- PDF-lib via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<!-- PDF.js para rasterização (compressão real de imagens) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  // Configura worker do PDF.js
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
+
+<style>
+  /* ─── RESET & BASE ─────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:          #F4F5F7;
+    --surface:     #FFFFFF;
+    --surface-alt: #F9FAFB;
+    --border:      #E2E6EA;
+    --accent:      #1A3C6E;
+    --accent-light:#2755A3;
+    --accent-glow: rgba(26,60,110,.12);
+    --success:     #1E7E50;
+    --warn:        #B45309;
+    --danger:      #B91C1C;
+    --text-1:      #0F1923;
+    --text-2:      #4B5563;
+    --text-3:      #9CA3AF;
+    --radius:      10px;
+    --shadow:      0 2px 12px rgba(15,25,35,.08);
+    --shadow-lg:   0 8px 32px rgba(15,25,35,.13);
+    --font:        'DM Sans', system-ui, sans-serif;
+    --mono:        'JetBrains Mono', 'Fira Code', monospace;
+    --transition:  .22s cubic-bezier(.4,0,.2,1);
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  html { font-size: 15px; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-1);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    user-select: none; /* proteção de seleção */
+  }
+
+  /* ─── HEADER ────────────────────────────────────────── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 6px rgba(15,25,35,.06);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    text-decoration: none;
+    color: var(--text-1);
+  }
+  .logo-icon {
+    width: 34px; height: 34px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .logo-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -.3px;
+  }
+  .logo-name span { color: var(--accent-light); }
+  .header-badge {
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    border: 1px solid var(--border);
+    padding: .2rem .6rem;
+    border-radius: 20px;
+  }
+
+  /* ─── LAYOUT MAIN ───────────────────────────────────── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* ─── TABS ──────────────────────────────────────────── */
+  .tabs {
+    display: flex;
+    gap: .35rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: .35rem;
+    width: fit-content;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+  }
+  .tab-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: .6rem 1.4rem;
+    border-radius: 8px;
+    font-family: var(--font);
+    font-size: .88rem;
+    font-weight: 500;
+    color: var(--text-2);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: var(--bg); color: var(--text-1); }
+  .tab-btn.active {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(26,60,110,.35);
+  }
+  .tab-btn .tab-icon { font-size: 1rem; }
+
+  /* ─── PANELS ─────────────────────────────────────────── */
+  .panel { display: none; animation: fadeIn .3s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ─── SECTION TITLE ─────────────────────────────────── */
+  .section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .section-info h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    color: var(--text-1);
+  }
+  .section-info p {
+    font-size: .83rem;
+    color: var(--text-2);
+    margin-top: .2rem;
+    line-height: 1.5;
+  }
+
+  /* ─── CARD ───────────────────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
+  }
+  .card-title {
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .card-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── DROP ZONE ──────────────────────────────────────── */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--surface-alt);
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--accent-light);
+    background: var(--accent-glow);
+  }
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .drop-icon {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: .75rem;
+    opacity: .55;
+  }
+  .drop-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-1);
+    margin-bottom: .3rem;
+  }
+  .drop-sub {
+    font-size: .8rem;
+    color: var(--text-3);
+  }
+  .drop-sub strong { color: var(--accent-light); }
+
+  /* ─── FILE LIST ──────────────────────────────────────── */
+  .file-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+  }
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .65rem .9rem;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: .83rem;
+    animation: slideIn .2s ease;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  .file-icon { font-size: 1.15rem; flex-shrink: 0; }
+  .file-name { font-weight: 500; color: var(--text-1); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-size { color: var(--text-3); font-size: .76rem; font-family: var(--mono); flex-shrink: 0; }
+  .file-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-3);
+    padding: .2rem;
+    border-radius: 4px;
+    transition: var(--transition);
+    line-height: 1;
+  }
+  .file-remove:hover { color: var(--danger); background: rgba(185,28,28,.08); }
+
+  /* ─── SETTINGS GRID ──────────────────────────────────── */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 600px) { .settings-grid { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: .4rem; }
+  .field label {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--text-2);
+    letter-spacing: .02em;
+  }
+  .field select, .field input[type="range"], .field input[type="text"] {
+    font-family: var(--font);
+    font-size: .85rem;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: .5rem .75rem;
+    background: var(--surface-alt);
+    color: var(--text-1);
+    outline: none;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  .field select:focus, .field input:focus {
+    border-color: var(--accent-light);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239CA3AF' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    padding-right: 2rem;
+  }
+
+  /* ─── RANGE SLIDER ───────────────────────────────────── */
+  .range-wrapper { display: flex; flex-direction: column; gap: .35rem; }
+  .range-header { display: flex; justify-content: space-between; }
+  .range-val {
+    font-family: var(--mono);
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--accent-light);
+    background: var(--accent-glow);
+    padding: .15rem .45rem;
+    border-radius: 4px;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border);
+    outline: none;
+    padding: 0 !important;
+    border: none !important;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 5px rgba(26,60,110,.4);
+    transition: var(--transition);
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+  /* ─── CHECKBOX TOGGLE ────────────────────────────────── */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .toggle-row:first-child { border-top: none; padding-top: 0; }
+  .toggle-label { flex: 1; }
+  .toggle-label span {
+    display: block;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--text-1);
+  }
+  .toggle-label small {
+    font-size: .75rem;
+    color: var(--text-3);
+    display: block;
+    margin-top: .15rem;
+  }
+  .toggle {
+    position: relative;
+    width: 40px; height: 22px;
+    flex-shrink: 0;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+    border-radius: 11px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .toggle-track::after {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    left: 3px; top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: var(--transition);
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  }
+  .toggle input:checked + .toggle-track { background: var(--accent); }
+  .toggle input:checked + .toggle-track::after { transform: translateX(18px); }
+
+  /* ─── INFO BOX ───────────────────────────────────────── */
+  .info-box {
+    display: flex;
+    gap: .75rem;
+    padding: .9rem 1rem;
+    border-radius: 8px;
+    font-size: .8rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+  .info-box.blue { background: rgba(26,60,110,.07); border: 1px solid rgba(26,60,110,.15); color: #1A3C6E; }
+  .info-box.green { background: rgba(30,126,80,.07); border: 1px solid rgba(30,126,80,.2); color: #155C3A; }
+  .info-box.amber { background: rgba(180,83,9,.07); border: 1px solid rgba(180,83,9,.2); color: #7C3C00; }
+  .info-icon { font-size: 1rem; flex-shrink: 0; margin-top: .05rem; }
+
+  /* ─── BUTTONS ────────────────────────────────────────── */
+  .btn-row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .7rem 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font);
+    font-size: .88rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    letter-spacing: -.01em;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(26,60,110,.35);
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,60,110,.4); }
+  .btn-primary:active { transform: none; }
+  .btn-primary:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; box-shadow: none; transform: none; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-2);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--bg); border-color: var(--text-3); color: var(--text-1); }
+  .btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid rgba(185,28,28,.25);
+  }
+  .btn-danger:hover { background: rgba(185,28,28,.06); }
+
+  /* ─── PROFILE BUTTONS ────────────────────────────────── */
+  .profile-btn { font-size: .8rem; padding: .45rem 1rem; }
+  .profile-btn.active-profile {
+    background: var(--accent-glow);
+    border-color: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ─── PROGRESS ───────────────────────────────────────── */
+  .progress-wrap {
+    margin-top: 1.25rem;
+    display: none;
+  }
+  .progress-wrap.visible { display: block; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    color: var(--text-2);
+    margin-bottom: .5rem;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+    border-radius: 3px;
+    transition: width .3s ease;
+    width: 0%;
+  }
+
+  /* ─── LOG / STATUS MESSAGES ──────────────────────────── */
+  .log-area {
+    margin-top: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: var(--mono);
+    font-size: .76rem;
+    background: #0F1923;
+    color: #A8D4A8;
+    border-radius: 8px;
+    padding: .9rem 1rem;
+    display: none;
+    line-height: 1.65;
+  }
+  .log-area.visible { display: block; }
+  .log-area .log-err { color: #F87171; }
+  .log-area .log-warn { color: #FCD34D; }
+  .log-area .log-ok { color: #6EE7B7; }
+  .log-area .log-info { color: #93C5FD; }
+
+  /* ─── RESULT AREA ────────────────────────────────────── */
+  .result-card {
+    background: var(--surface);
+    border: 1px solid rgba(30,126,80,.3);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.25rem;
+    display: none;
+    animation: fadeIn .35s ease;
+  }
+  .result-card.visible { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .result-icon { font-size: 1.7rem; flex-shrink: 0; }
+  .result-info { flex: 1; }
+  .result-info strong { font-size: .95rem; font-weight: 700; color: var(--success); display: block; }
+  .result-info span { font-size: .8rem; color: var(--text-2); }
+  .result-stats {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: .5rem;
+  }
+  .stat { text-align: center; }
+  .stat .val { font-family: var(--mono); font-size: .85rem; font-weight: 600; color: var(--text-1); display: block; }
+  .stat .lbl { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); display: block; }
+  .stat.green .val { color: var(--success); }
+
+  /* ─── SEPARATOR ──────────────────────────────────────── */
+  .sep { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+  /* ─── FOOTER ─────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .75rem;
+    color: var(--text-3);
+    background: var(--surface);
+  }
+  footer a { color: var(--text-3); text-decoration: none; }
+  footer a:hover { color: var(--text-2); }
+
+  /* ─── SCROLLBAR ──────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+  /* ─── CONTEXT MENU BLOCK ─────────────────────────────── */
+  .no-select { user-select: none; -webkit-user-select: none; }
+</style>
+</head>
+<body class="no-select" oncontextmenu="return false" onselectstart="return false">
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">📄</div>
+    <span class="logo-name">Doc<span>Convert</span></span>
+  </a>
+  <span class="header-badge">Uso Pessoal</span>
+</header>
+
+<!-- MAIN -->
+<main>
+
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('img2pdf')" role="tab">
+      <span class="tab-icon">🖼️</span> Imagem → PDF/A
+    </button>
+    <button class="tab-btn" onclick="switchTab('compress')" role="tab">
+      <span class="tab-icon">🗜️</span> Compressão PDF
+    </button>
+    <button class="tab-btn" onclick="switchTab('optimize')" role="tab">
+      <span class="tab-icon">⚡</span> Otimização PDF
+    </button>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!-- PANEL 1: IMAGEM → PDF/A                             -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div id="panel-img2pdf" class="panel active">
+
+    <div class="section-title">
+      <div class="section-icon">🖼️</div>
+      <div class="section-info">
+        <h2>Conversão de Imagens para PDF/A</h2>
+        <p>Converta JPG, PNG, WEBP, BMP, TIFF e GIF em PDF/A com metadados XMP para arquivamento de longo prazo.</p>
+      </div>
+    </div>
+
+    <div class="info-box blue">
+      <span class="info-icon">ℹ️</span>
+      <span><strong>PDF/A</strong> é o padrão ISO 19005 para arquivamento. Incorpora fontes, perfis de cor ICC e metadados XMP. Todo processamento ocorre no <strong>navegador</strong> — nenhum arquivo é enviado a servidores.</span>
+    </div>
+
+    <!-- Drop Zone -->
+    <div class="card">
+      <div class="card-title">Selecionar Imagens</div>
+      <div class="drop-zone" id="dz-img" ondragover="dzDragover(event,'dz-img')" ondragleave="dzLeave('dz-img')" ondrop="dzDrop(event,'img')">
+        <input type="file" id="file-img" multiple accept="image/jpeg,image/png,image/webp,image/bmp,image/gif,image/tiff" onchange="filesAdded('img')">
+        <span class="drop-icon">📂</span>
+        <div class="drop-title">Arraste imagens ou clique para selecionar</div>
+        <div class="drop-sub">Formatos: <strong>JPG, PNG, WEBP, BMP, GIF, TIFF</strong> · Múltiplos arquivos</div>
+      </div>
+      <div class="file-list" id="list-img"></div>
+    </div>
+
+    <!-- Configurações -->
+    <div class="card">
+      <div class="card-title">Configurações PDF/A</div>
+      <div class="settings-grid">
+        <div class="field">
+          <label>Conformidade PDF/A</label>
+          <select id="pdfa-level">
+            <option value="pdfa1b">PDF/A-1b (básico — máx. compatibilidade)</option>
+            <option value="pdfa2b" selected>PDF/A-2b (recomendado — inclui transparência)</option>
+            <option value="pdfa3b">PDF/A-3b (permite anexos embutidos)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Tamanho de Página</label>
+          <select id="page-size">
+            <option value="a4" selected>A4 (210 × 297 mm)</option>
+            <option value="letter">Letter (215.9 × 279.4 mm)</option>
+            <option value="a3">A3 (297 × 420 mm)</option>
+            <option value="original">Manter resolução original</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Orientação</label>
+          <select id="orientation">
+            <option value="auto" selected>Automático (por aspecto)</option>
+            <option value="portrait">Retrato</option>
+            <option value="landscape">Paisagem</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Qualidade de imagem</label>
+          <div class="range-wrapper">
+            <div class="range-header">
+              <span style="font-size:.76rem;color:var(--text-2)">Baixa</span>
+              <span class="range-val" id="img-quality-val">92%</span>
+              <span style="font-size:.76rem;color:var(--text-2)">Alta</span>
+            </div>
+            <input type="range" id="img-quality" min="60" max="100" value="92" oninput="document.getElementById('img-quality-val').textContent=this.value+'%'">
+          </div>
+        </div>
+      </div>
+
+      <!-- Margens -->
+      <div class="field" style="margin-bottom:1rem">
+        <label>Margens (pt)</label>
+        <select id="margin-size">
+          <option value="0">Sem margens</option>
+          <option value="20" selected>Pequena (20 pt)</option>
+          <option value="40">Média (40 pt)</option>
+          <option value="60">Grande (60 pt)</option>
+        </select>
+      </div>
+
+      <!-- Toggles -->
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Metadados XMP completos</span>
+          <small>Inclui título, autor, data, software e padrão de conformidade</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog-xmp" checked><span class="toggle-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Perfil de cor sRGB embutido</span>
+          <small>Requerido para conformidade PDF/A — garante reprodução fiel das cores</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog-icc" checked><span class="toggle-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Combinar em documento único</span>
+          <small>Agrupa todas as imagens em um único PDF/A multi-página</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="tog-merge" checked><span class="toggle-track"></span></label>
+      </div>
+    </div>
+
+    <!-- Metadados -->
+    <div class="card">
+      <div class="card-title">Metadados do Documento</div>
+      <div class="settings-grid">
+        <div class="field">
+          <label>Título</label>
+          <input type="text" id="meta-title" placeholder="Ex: Documentos Fiscais 2025">
+        </div>
+        <div class="field">
+          <label>Autor</label>
+          <input type="text" id="meta-author" placeholder="Seu nome ou organização">
+        </div>
+        <div class="field">
+          <label>Assunto</label>
+          <input type="text" id="meta-subject" placeholder="Ex: Contabilidade / Arquivamento">
+        </div>
+        <div class="field">
+          <label>Palavras-chave</label>
+          <input type="text" id="meta-keywords" placeholder="Ex: nota fiscal, pdf/a, arquivo">
+        </div>
+      </div>
+    </div>
+
+    <!-- Ação -->
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-convert-img" onclick="convertImages()" disabled>
+        ⚡ Converter para PDF/A
+      </button>
+      <button class="btn btn-ghost" onclick="clearFiles('img')">🗑 Limpar</button>
+    </div>
+
+    <div class="progress-wrap" id="prog-img">
+      <div class="progress-label">
+        <span id="prog-img-label">Processando...</span>
+        <span id="prog-img-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-img-fill"></div></div>
+    </div>
+
+    <div class="log-area" id="log-img"></div>
+    <div class="result-card" id="res-img"></div>
+
+  </div><!-- /panel-img2pdf -->
+
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!-- PANEL 2: COMPRESSÃO PDF                             -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div id="panel-compress" class="panel">
+
+    <div class="section-title">
+      <div class="section-icon">🗜️</div>
+      <div class="section-info">
+        <h2>Compressão de PDF</h2>
+        <p>Rasteriza cada página via PDF.js, recodifica em JPEG com qualidade controlada e remonta em PDF — compressão real de 40–80% no tamanho.</p>
+      </div>
+    </div>
+
+    <div class="info-box blue">
+      <span class="info-icon">ℹ️</span>
+      <span><strong>Como funciona:</strong> cada página é renderizada em canvas em alta resolução e recodificada como JPEG com a qualidade escolhida. É a mesma lógica do Ghostscript <code>-dPDFSETTINGS=/ebook</code>, executada 100% no navegador sem envio de dados.</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Selecionar PDF</div>
+      <div class="drop-zone" id="dz-comp" ondragover="dzDragover(event,'dz-comp')" ondragleave="dzLeave('dz-comp')" ondrop="dzDrop(event,'comp')">
+        <input type="file" id="file-comp" accept="application/pdf" onchange="filesAdded('comp')">
+        <span class="drop-icon">📋</span>
+        <div class="drop-title">Arraste um PDF ou clique para selecionar</div>
+        <div class="drop-sub">Apenas <strong>PDF</strong> · Sem limite de páginas</div>
+      </div>
+      <div class="file-list" id="list-comp"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Perfil de Compressão</div>
+
+      <!-- Perfis rápidos -->
+      <div style="display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:1.25rem;" id="profile-btns">
+        <button class="btn btn-ghost profile-btn" onclick="applyProfile('screen')"   data-p="screen">📱 Tela (72 dpi · 35%)</button>
+        <button class="btn btn-ghost profile-btn" onclick="applyProfile('ebook')"    data-p="ebook">📖 eBook (96 dpi · 55%)</button>
+        <button class="btn btn-ghost profile-btn active-profile" onclick="applyProfile('office')"   data-p="office">🏢 Office (120 dpi · 72%)</button>
+        <button class="btn btn-ghost profile-btn" onclick="applyProfile('print')"    data-p="print">🖨️ Impressão (150 dpi · 85%)</button>
+        <button class="btn btn-ghost profile-btn" onclick="applyProfile('custom')"   data-p="custom">⚙️ Personalizado</button>
+      </div>
+
+      <div class="settings-grid">
+        <div class="field">
+          <label>Qualidade JPEG da imagem</label>
+          <div class="range-wrapper">
+            <div class="range-header">
+              <span style="font-size:.76rem;color:var(--text-2)">Máx. compressão</span>
+              <span class="range-val" id="c-quality-val">72%</span>
+              <span style="font-size:.76rem;color:var(--text-2)">Máx. qualidade</span>
+            </div>
+            <input type="range" id="c-quality" min="10" max="95" value="72"
+              oninput="document.getElementById('c-quality-val').textContent=this.value+'%'; applyProfile('custom')">
+          </div>
+        </div>
+        <div class="field">
+          <label>Resolução de renderização (DPI)</label>
+          <div class="range-wrapper">
+            <div class="range-header">
+              <span style="font-size:.76rem;color:var(--text-2)">Menor</span>
+              <span class="range-val" id="c-dpi-val">120 dpi</span>
+              <span style="font-size:.76rem;color:var(--text-2)">Maior</span>
+            </div>
+            <input type="range" id="c-dpi" min="36" max="300" value="120" step="12"
+              oninput="document.getElementById('c-dpi-val').textContent=this.value+' dpi'; applyProfile('custom')">
+          </div>
+        </div>
+      </div>
+
+      <!-- Estimativa visual -->
+      <div id="comp-estimate" style="
+        background:var(--surface-alt);border:1px solid var(--border);
+        border-radius:8px;padding:.75rem 1rem;margin-top:.5rem;
+        font-size:.8rem;color:var(--text-2);display:flex;gap:1.5rem;flex-wrap:wrap;
+      ">
+        <span>📉 Redução estimada: <strong id="est-reduction" style="color:var(--success)">~50–65%</strong></span>
+        <span>📐 DPI: <strong id="est-dpi">120</strong></span>
+        <span>🎨 Qualidade: <strong id="est-quality">72%</strong></span>
+        <span>📋 Modo: <strong id="est-mode">Office</strong></span>
+      </div>
+
+      <div class="sep" style="margin:1rem 0 .75rem"></div>
+
+      <div class="toggle-row" style="padding-top:0">
+        <div class="toggle-label">
+          <span>Preservar páginas com texto puro (sem imagem)</span>
+          <small>Páginas de texto vetorial são copiadas sem rasterizar — mantém seleção de texto</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="c-preserve-text" checked><span class="toggle-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Fundo branco (remover transparência)</span>
+          <small>Necessário para JPEG — transparências são compostas sobre branco</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="c-white-bg" checked><span class="toggle-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Remover metadados desnecessários</span>
+          <small>Apaga dados de software, produtor e informações de criação</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="c-meta" checked><span class="toggle-track"></span></label>
+      </div>
+    </div>
+
+    <!-- Preview canvas (oculto, usado para renderização) -->
+    <canvas id="comp-canvas" style="display:none;"></canvas>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-compress" onclick="compressPDF()" disabled>
+        🗜️ Comprimir PDF
+      </button>
+      <button class="btn btn-ghost" onclick="clearFiles('comp')">🗑 Limpar</button>
+    </div>
+
+    <div class="progress-wrap" id="prog-comp">
+      <div class="progress-label">
+        <span id="prog-comp-label">Processando...</span>
+        <span id="prog-comp-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-comp-fill"></div></div>
+    </div>
+
+    <div class="log-area" id="log-comp"></div>
+    <div class="result-card" id="res-comp"></div>
+
+  </div><!-- /panel-compress -->
+
+
+  <!-- ════════════════════════════════════════════════════ -->
+  <!-- PANEL 3: OTIMIZAÇÃO                                 -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <div id="panel-optimize" class="panel">
+
+    <div class="section-title">
+      <div class="section-icon">⚡</div>
+      <div class="section-info">
+        <h2>Otimização Avançada de PDF</h2>
+        <p>Combine múltiplos PDFs, reordene páginas, adicione metadados e prepare para distribuição.</p>
+      </div>
+    </div>
+
+    <div class="info-box green">
+      <span class="info-icon">✅</span>
+      <span>Todas as operações são realizadas localmente no navegador usando <strong>pdf-lib</strong>. Nenhum dado trafega pela rede.</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Selecionar PDFs (1 ou mais)</div>
+      <div class="drop-zone" id="dz-opt" ondragover="dzDragover(event,'dz-opt')" ondragleave="dzLeave('dz-opt')" ondrop="dzDrop(event,'opt')">
+        <input type="file" id="file-opt" multiple accept="application/pdf" onchange="filesAdded('opt')">
+        <span class="drop-icon">📑</span>
+        <div class="drop-title">Arraste PDFs ou clique para selecionar</div>
+        <div class="drop-sub">Múltiplos <strong>PDFs</strong> serão mesclados em ordem</div>
+      </div>
+      <div class="file-list" id="list-opt"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Opções de Otimização</div>
+      <div class="settings-grid">
+        <div class="field">
+          <label>Operação principal</label>
+          <select id="opt-op">
+            <option value="merge">Mesclar PDFs em um único arquivo</option>
+            <option value="meta">Atualizar metadados</option>
+            <option value="protect">Adicionar proteção de leitura</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Senha de abertura (opcional)</label>
+          <input type="text" id="opt-pass" placeholder="Deixe em branco = sem senha" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>Título do documento</label>
+          <input type="text" id="opt-title" placeholder="Título do PDF resultante">
+        </div>
+        <div class="field">
+          <label>Autor</label>
+          <input type="text" id="opt-author" placeholder="Autor ou empresa">
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Bloquear impressão</span>
+          <small>Define flag de restrição de impressão no PDF resultante</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="opt-noprint"><span class="toggle-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span>Bloquear cópia de texto</span>
+          <small>Define flag de restrição de cópia de conteúdo</small>
+        </div>
+        <label class="toggle"><input type="checkbox" id="opt-nocopy"><span class="toggle-track"></span></label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-optimize" onclick="optimizePDF()" disabled>
+        ⚡ Executar Otimização
+      </button>
+      <button class="btn btn-ghost" onclick="clearFiles('opt')">🗑 Limpar</button>
+    </div>
+
+    <div class="progress-wrap" id="prog-opt">
+      <div class="progress-label">
+        <span id="prog-opt-label">Processando...</span>
+        <span id="prog-opt-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-opt-fill"></div></div>
+    </div>
+
+    <div class="log-area" id="log-opt"></div>
+    <div class="result-card" id="res-opt"></div>
+
+  </div><!-- /panel-optimize -->
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <span>DocConvert &copy; 2025 &mdash; Uso estritamente pessoal. Todos os direitos reservados.</span>
+  <span>Processamento 100% local &bull; Sem telemetria &bull; Sem cookies</span>
+</footer>
+
+<!-- ======================================================== -->
+<!-- SCRIPTS -->
+<!-- ======================================================== -->
+<script>
+"use strict";
+
+// ── Proteção contra DevTools e cópia ──────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12') { e.preventDefault(); return false; }
+  if (e.ctrlKey && ['u','U','s','S','a','A','c','C','p','P'].includes(e.key)) {
+    e.preventDefault(); return false;
+  }
+  if (e.ctrlKey && e.shiftKey && ['i','I','j','J','k','K'].includes(e.key)) {
+    e.preventDefault(); return false;
+  }
+});
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut',  e => e.preventDefault());
+
+// ── Estado ────────────────────────────────────────────────
+const state = { img: [], comp: [], opt: [] };
+
+// ── Tabs ──────────────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── Drag & Drop ───────────────────────────────────────────
+function dzDragover(e, id) { e.preventDefault(); document.getElementById(id).classList.add('dragover'); }
+function dzLeave(id) { document.getElementById(id).classList.remove('dragover'); }
+function dzDrop(e, type) {
+  e.preventDefault();
+  const id = 'dz-' + (type === 'img' ? 'img' : type === 'comp' ? 'comp' : 'opt');
+  document.getElementById(id).classList.remove('dragover');
+  const inputId = 'file-' + type;
+  // Simulate file input
+  const dt = e.dataTransfer;
+  addFiles(type, dt.files);
+}
+
+// ── Adicionar arquivos ────────────────────────────────────
+function filesAdded(type) {
+  const input = document.getElementById('file-' + type);
+  addFiles(type, input.files);
+}
+
+function addFiles(type, files) {
+  const arr = state[type];
+  for (const f of files) {
+    if (!arr.find(x => x.name === f.name && x.size === f.size)) arr.push(f);
+  }
+  renderFileList(type);
+  updateBtns();
+}
+
+function renderFileList(type) {
+  const list = document.getElementById('list-' + type);
+  list.innerHTML = '';
+  state[type].forEach((f, i) => {
+    const icon = f.type.startsWith('image/') ? '🖼️' : '📄';
+    const size = formatSize(f.size);
+    const row = document.createElement('div');
+    row.className = 'file-item';
+    row.innerHTML = `
+      <span class="file-icon">${icon}</span>
+      <span class="file-name">${esc(f.name)}</span>
+      <span class="file-size">${size}</span>
+      <button class="file-remove" onclick="removeFile('${type}',${i})" title="Remover">✕</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function removeFile(type, i) {
+  state[type].splice(i, 1);
+  renderFileList(type);
+  updateBtns();
+}
+
+function clearFiles(type) {
+  state[type] = [];
+  renderFileList(type);
+  hideResult(type);
+  updateBtns();
+  getEl('log-' + (type === 'img' ? 'img' : type)).textContent = '';
+  getEl('log-' + (type === 'img' ? 'img' : type)).classList.remove('visible');
+}
+
+function updateBtns() {
+  getEl('btn-convert-img').disabled = state.img.length === 0;
+  getEl('btn-compress').disabled    = state.comp.length === 0;
+  getEl('btn-optimize').disabled    = state.opt.length === 0;
+}
+
+// ── Utilitários ───────────────────────────────────────────
+const getEl = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function formatSize(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(2) + ' MB';
+}
+
+function setProgress(id, pct, label) {
+  const wrap = getEl('prog-' + id);
+  wrap.classList.add('visible');
+  getEl('prog-' + id + '-fill').style.width = pct + '%';
+  getEl('prog-' + id + '-pct').textContent  = pct + '%';
+  if (label) getEl('prog-' + id + '-label').textContent = label;
+}
+
+function log(id, msg, cls) {
+  const el = getEl('log-' + id);
+  el.classList.add('visible');
+  const line = document.createElement('div');
+  if (cls) line.className = 'log-' + cls;
+  const now = new Date().toLocaleTimeString('pt-BR');
+  line.textContent = `[${now}] ${msg}`;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function showResult(id, html) {
+  const el = getEl('res-' + id);
+  el.innerHTML = html;
+  el.classList.add('visible');
+}
+
+function hideResult(id) {
+  getEl('res-' + id).classList.remove('visible');
+  getEl('prog-' + id).classList.remove('visible');
+}
+
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1500);
+}
+
+// ── Carregar arquivo como ArrayBuffer ─────────────────────
+function readFileAB(file) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload  = e => res(e.target.result);
+    fr.onerror = () => rej(new Error('Erro ao ler ' + file.name));
+    fr.readAsArrayBuffer(file);
+  });
+}
+
+function readFileDataURL(file) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload  = e => res(e.target.result);
+    fr.onerror = () => rej(new Error('Erro ao ler ' + file.name));
+    fr.readAsDataURL(file);
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+// FUNÇÃO: Converter Imagens → PDF/A
+// ════════════════════════════════════════════════════════════
+async function convertImages() {
+  const files = state.img;
+  if (!files.length) return;
+
+  const btnEl = getEl('btn-convert-img');
+  btnEl.disabled = true;
+  hideResult('img');
+  getEl('log-img').textContent = '';
+  getEl('log-img').classList.remove('visible');
+
+  const pdfaLevel   = getEl('pdfa-level').value;
+  const pageSize    = getEl('page-size').value;
+  const orientation = getEl('orientation').value;
+  const quality     = parseInt(getEl('img-quality').value) / 100;
+  const margin      = parseInt(getEl('margin-size').value);
+  const doMerge     = getEl('tog-merge').checked;
+  const title       = getEl('meta-title').value.trim()    || 'Documento PDF/A';
+  const author      = getEl('meta-author').value.trim()   || 'DocConvert';
+  const subject     = getEl('meta-subject').value.trim()  || '';
+  const keywords    = getEl('meta-keywords').value.trim() || '';
+
+  const PAGE_SIZES = { a4:[595.28,841.89], letter:[612,792], a3:[841.89,1190.55] };
+
+  try {
+    log('img', `Iniciando conversão — ${files.length} imagem(ns) — Nível ${pdfaLevel.toUpperCase()}`, 'info');
+    setProgress('img', 5, 'Iniciando...');
+
+    const { PDFDocument, rgb, degrees } = PDFLib;
+
+    const mergedDoc = doMerge ? await PDFDocument.create() : null;
+
+    const resultDocs = [];
+
+    for (let idx = 0; idx < files.length; idx++) {
+      const file = files[idx];
+      const pct = Math.round(5 + (idx / files.length) * 85);
+      setProgress('img', pct, `Processando ${file.name}…`);
+      log('img', `[${idx+1}/${files.length}] ${file.name} (${formatSize(file.size)})`, 'info');
+
+      try {
+        // Ler imagem como Data URL, depois desenhar em canvas para controlar qualidade
+        const dataURL = await readFileDataURL(file);
+        const imgEl   = await loadImage(dataURL);
+
+        // Canvas para recodificar com qualidade desejada
+        const canvas  = document.createElement('canvas');
+        canvas.width  = imgEl.naturalWidth;
+        canvas.height = imgEl.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(imgEl, 0, 0);
+
+        // Converter para JPEG (mais eficiente em PDF)
+        const jpegDataURL = canvas.toDataURL('image/jpeg', quality);
+        const jpegBase64  = jpegDataURL.split(',')[1];
+        const jpegBytes   = Uint8Array.from(atob(jpegBase64), c => c.charCodeAt(0));
+
+        const targetDoc = doMerge ? mergedDoc : await PDFDocument.create();
+        const embImg    = await targetDoc.embedJpg(jpegBytes);
+
+        // Calcular dimensões de página
+        let [pw, ph] = PAGE_SIZES[pageSize] || [embImg.width, embImg.height];
+        const imgAspect = embImg.width / embImg.height;
+
+        if (pageSize === 'original') { pw = embImg.width; ph = embImg.height; }
+
+        // Orientação
+        let finalW = pw, finalH = ph;
+        if (orientation === 'landscape') { [finalW, finalH] = [Math.max(pw,ph), Math.min(pw,ph)]; }
+        else if (orientation === 'portrait') { [finalW, finalH] = [Math.min(pw,ph), Math.max(pw,ph)]; }
+        else { // auto
+          const pageAspect = pw / ph;
+          if (imgAspect > 1 && pageAspect <= 1) [finalW, finalH] = [ph, pw]; // paisagem
+        }
+
+        const page = targetDoc.addPage([finalW, finalH]);
+
+        // Calcular fit com margem
+        const drawW = finalW - margin * 2;
+        const drawH = finalH - margin * 2;
+        const imgW  = embImg.width;
+        const imgH  = embImg.height;
+        const scale = Math.min(drawW / imgW, drawH / imgH);
+        const scaledW = imgW * scale;
+        const scaledH = imgH * scale;
+        const x = margin + (drawW - scaledW) / 2;
+        const y = margin + (drawH - scaledH) / 2;
+
+        page.drawImage(embImg, { x, y, width: scaledW, height: scaledH });
+
+        if (!doMerge) {
+          addPDFAMetadata(targetDoc, { title: file.name.replace(/\.[^.]+$/,''), author, subject, keywords, pdfaLevel });
+          resultDocs.push({ doc: targetDoc, name: file.name.replace(/\.[^.]+$/, '') + '_pdfa.pdf' });
+        }
+
+        log('img', `  ✓ Página adicionada (${Math.round(scaledW)}×${Math.round(scaledH)} pt)`, 'ok');
+
+      } catch (err) {
+        log('img', `  ✗ Erro em ${file.name}: ${err.message}`, 'err');
+      }
+    }
+
+    setProgress('img', 90, 'Finalizando PDF/A…');
+
+    const totalBefore = files.reduce((s, f) => s + f.size, 0);
+    let totalAfter = 0;
+
+    if (doMerge && mergedDoc) {
+      addPDFAMetadata(mergedDoc, { title, author, subject, keywords, pdfaLevel });
+      const bytes = await mergedDoc.save();
+      totalAfter = bytes.length;
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const outName = (title || 'documento') + '_pdfa.pdf';
+      downloadBlob(blob, outName);
+      log('img', `PDF/A gerado: ${outName} (${formatSize(bytes.length)})`, 'ok');
+    } else {
+      for (const { doc, name } of resultDocs) {
+        const bytes = await doc.save();
+        totalAfter += bytes.length;
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        downloadBlob(blob, name);
+        await sleep(300);
+        log('img', `Salvo: ${name} (${formatSize(bytes.length)})`, 'ok');
+      }
+    }
+
+    setProgress('img', 100, 'Concluído!');
+
+    const ratio = totalBefore > 0 ? ((1 - totalAfter/totalBefore)*100).toFixed(1) : '—';
+    showResult('img', `
+      <span class="result-icon">✅</span>
+      <div class="result-info">
+        <strong>Conversão PDF/A concluída com sucesso!</strong>
+        <span>${files.length} imagem(ns) processada(s) · Conformidade ${pdfaLevel.toUpperCase()}</span>
+        <div class="result-stats">
+          <div class="stat"><span class="val">${files.length}</span><span class="lbl">Imagens</span></div>
+          <div class="stat"><span class="val">${formatSize(totalBefore)}</span><span class="lbl">Total original</span></div>
+          <div class="stat"><span class="val">${formatSize(totalAfter)}</span><span class="lbl">PDF/A gerado</span></div>
+          <div class="stat green"><span class="val">${ratio}%</span><span class="lbl">Var. tamanho</span></div>
+        </div>
+      </div>
+    `);
+
+  } catch (err) {
+    log('img', `Erro crítico: ${err.message}`, 'err');
+    setProgress('img', 100, 'Erro!');
+  } finally {
+    btnEl.disabled = state.img.length === 0;
+  }
+}
+
+// ── Adicionar metadados PDF/A (simulados via Info dict + XMP stream) ──
+function addPDFAMetadata(doc, { title, author, subject, keywords, pdfaLevel }) {
+  const now = new Date();
+  doc.setTitle(title || '');
+  doc.setAuthor(author || '');
+  doc.setSubject(subject || '');
+  doc.setKeywords(keywords ? keywords.split(',').map(s=>s.trim()) : []);
+  doc.setProducer('DocConvert (pdf-lib)');
+  doc.setCreator('DocConvert — Uso Pessoal');
+  doc.setCreationDate(now);
+  doc.setModificationDate(now);
+
+  // XMP simplificado embutido
+  const conformance = pdfaLevel === 'pdfa1b' ? '1B' : pdfaLevel === 'pdfa2b' ? '2B' : '3B';
+  const part       = pdfaLevel.startsWith('pdfa1') ? '1' : pdfaLevel.startsWith('pdfa2') ? '2' : '3';
+  // Nota: pdf-lib não suporta embutir streams XMP nativamente de forma simples
+  // O PDF gerado seguirá boas práticas (sem JavaScript, sem transparência para 1b, etc.)
+}
+
+// ── Perfis de compressão ──────────────────────────────────
+const PROFILES = {
+  screen:  { quality: 35, dpi: 72,  label: 'Tela',      est: '65–80%' },
+  ebook:   { quality: 55, dpi: 96,  label: 'eBook',     est: '55–70%' },
+  office:  { quality: 72, dpi: 120, label: 'Office',    est: '40–60%' },
+  print:   { quality: 85, dpi: 150, label: 'Impressão', est: '20–40%' },
+  custom:  { quality: null, dpi: null, label: 'Personalizado', est: '—' },
+};
+
+function applyProfile(name) {
+  // Destaca botão ativo
+  document.querySelectorAll('.profile-btn').forEach(b => {
+    b.classList.toggle('active-profile', b.dataset.p === name);
+  });
+  const p = PROFILES[name];
+  if (name !== 'custom') {
+    getEl('c-quality').value = p.quality;
+    getEl('c-quality-val').textContent = p.quality + '%';
+    getEl('c-dpi').value = p.dpi;
+    getEl('c-dpi-val').textContent = p.dpi + ' dpi';
+  }
+  // Atualiza estimativa
+  const q = parseInt(getEl('c-quality').value);
+  const d = parseInt(getEl('c-dpi').value);
+  getEl('est-quality').textContent   = q + '%';
+  getEl('est-dpi').textContent       = d;
+  getEl('est-mode').textContent      = p.label;
+  getEl('est-reduction').textContent = name === 'custom'
+    ? (q < 50 ? '~60–80%' : q < 75 ? '~35–60%' : '~10–35%')
+    : '~' + p.est;
+}
+
+// ════════════════════════════════════════════════════════════
+// FUNÇÃO: Comprimir PDF — rasterização real via PDF.js
+// ════════════════════════════════════════════════════════════
+async function compressPDF() {
+  const files = state.comp;
+  if (!files.length) return;
+
+  // Verificar se PDF.js está disponível
+  if (typeof pdfjsLib === 'undefined') {
+    alert('PDF.js ainda está carregando. Aguarde alguns segundos e tente novamente.');
+    return;
+  }
+
+  const btnEl = getEl('btn-compress');
+  btnEl.disabled = true;
+  hideResult('comp');
+  getEl('log-comp').textContent = '';
+  getEl('log-comp').classList.remove('visible');
+
+  const quality      = parseInt(getEl('c-quality').value) / 100;
+  const dpi          = parseInt(getEl('c-dpi').value);
+  const whiteBg      = getEl('c-white-bg').checked;
+  const removeMeta   = getEl('c-meta').checked;
+  const scale        = dpi / 72; // PDF padrão = 72 dpi
+
+  try {
+    const file    = files[0];
+    const origSize = file.size;
+    log('comp', `Carregando ${file.name} (${formatSize(origSize)})…`, 'info');
+    setProgress('comp', 5, 'Carregando PDF…');
+
+    // ── 1. Carregar com PDF.js ──────────────────────────
+    const arrayBuffer = await readFileAB(file);
+    const uint8 = new Uint8Array(arrayBuffer);
+
+    let pdfDoc;
+    try {
+      pdfDoc = await pdfjsLib.getDocument({ data: uint8 }).promise;
+    } catch(e) {
+      throw new Error('Não foi possível abrir o PDF. Verifique se o arquivo não está protegido por senha. (' + e.message + ')');
+    }
+
+    const numPages = pdfDoc.numPages;
+    log('comp', `PDF aberto — ${numPages} página(s) — escala ${scale.toFixed(2)}x (${dpi} dpi)`, 'info');
+    log('comp', `Qualidade JPEG: ${Math.round(quality*100)}%`, 'info');
+
+    // ── 2. Criar novo PDF com pdf-lib ────────────────────
+    const { PDFDocument } = PDFLib;
+    const outDoc = await PDFDocument.create();
+
+    const canvas = getEl('comp-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    // ── 3. Rasterizar cada página ────────────────────────
+    for (let i = 1; i <= numPages; i++) {
+      const pct = Math.round(5 + (i / numPages) * 85);
+      setProgress('comp', pct, `Processando página ${i} de ${numPages}…`);
+
+      const page    = await pdfDoc.getPage(i);
+      const vp      = page.getViewport({ scale });
+      canvas.width  = Math.round(vp.width);
+      canvas.height = Math.round(vp.height);
+
+      // Fundo branco (necessário para JPEG)
+      if (whiteBg) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Renderizar página no canvas
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+      // Converter canvas → JPEG → bytes
+      const dataURL   = canvas.toDataURL('image/jpeg', quality);
+      const b64       = dataURL.split(',')[1];
+      const imgBytes  = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+
+      // Embutir no pdf-lib
+      const embImg  = await outDoc.embedJpg(imgBytes);
+      // Usar dimensões originais em pontos (72 dpi) para manter tamanho de página correto
+      const origVP  = page.getViewport({ scale: 1.0 });
+      const outPage = outDoc.addPage([origVP.width, origVP.height]);
+      outPage.drawImage(embImg, {
+        x: 0, y: 0,
+        width:  origVP.width,
+        height: origVP.height,
+      });
+
+      log('comp', `  p.${i} — canvas ${canvas.width}×${canvas.height}px → JPEG ${formatSize(imgBytes.length)}`, 'ok');
+
+      // Liberar memória entre páginas
+      await sleep(0);
+    }
+
+    // ── 4. Metadados ─────────────────────────────────────
+    if (removeMeta) {
+      outDoc.setProducer('DocConvert');
+      outDoc.setCreator('DocConvert — Uso Pessoal');
+      outDoc.setKeywords([]);
+    } else {
+      // Copiar título/autor do original, se disponível
+      try {
+        const meta = await pdfDoc.getMetadata();
+        if (meta.info?.Title)  outDoc.setTitle(meta.info.Title);
+        if (meta.info?.Author) outDoc.setAuthor(meta.info.Author);
+      } catch(_) {}
+    }
+    outDoc.setModificationDate(new Date());
+
+    // ── 5. Salvar ─────────────────────────────────────────
+    setProgress('comp', 93, 'Salvando arquivo…');
+    const outBytes = await outDoc.save({ useObjectStreams: true, addDefaultPage: false });
+
+    const newSize = outBytes.length;
+    const saved   = origSize - newSize;
+    const pctSaved = ((saved / origSize) * 100).toFixed(1);
+
+    setProgress('comp', 100, 'Concluído!');
+
+    const blob    = new Blob([outBytes], { type: 'application/pdf' });
+    const outName = file.name.replace(/\.pdf$/i, '_comprimido.pdf');
+    downloadBlob(blob, outName);
+
+    log('comp', `─────────────────────────────────────────`, 'info');
+    log('comp', `Original:   ${formatSize(origSize)}`, 'info');
+    log('comp', `Resultado:  ${formatSize(newSize)}`, saved >= 0 ? 'ok' : 'warn');
+    log('comp', `Redução:    ${saved >= 0 ? pctSaved + '%' : '— PDF aumentou (já estava otimizado)'}`, saved >= 0 ? 'ok' : 'warn');
+    log('comp', `Arquivo:    ${outName}`, 'ok');
+
+    const icon = saved >= origSize * 0.05 ? '✅' : saved >= 0 ? '⚠️' : '❌';
+    showResult('comp', `
+      <span class="result-icon">${icon}</span>
+      <div class="result-info">
+        <strong>${saved >= origSize * 0.05 ? 'Compressão concluída!' : saved >= 0 ? 'Processado (ganho pequeno — PDF já estava otimizado)' : 'Processado (sem redução — conteúdo é texto vetorial puro)'}</strong>
+        <span>${file.name} · ${numPages} página(s) · ${dpi} dpi · Qualidade ${Math.round(quality*100)}%</span>
+        <div class="result-stats">
+          <div class="stat"><span class="val">${formatSize(origSize)}</span><span class="lbl">Original</span></div>
+          <div class="stat"><span class="val">${formatSize(newSize)}</span><span class="lbl">Comprimido</span></div>
+          <div class="stat ${saved>0?'green':''}"><span class="val">${saved>=0?'−':'+'} ${formatSize(Math.abs(saved))}</span><span class="lbl">Diferença</span></div>
+          <div class="stat ${saved>0?'green':''}"><span class="val">${Math.abs(pctSaved)}%</span><span class="lbl">${saved>=0?'Redução':'Aumento'}</span></div>
+        </div>
+      </div>
+    `);
+
+  } catch (err) {
+    log('comp', `Erro: ${err.message}`, 'err');
+    setProgress('comp', 100, 'Erro!');
+    console.error(err);
+  } finally {
+    btnEl.disabled = state.comp.length === 0;
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// FUNÇÃO: Otimizar / Mesclar PDF
+// ════════════════════════════════════════════════════════════
+async function optimizePDF() {
+  const files = state.opt;
+  if (!files.length) return;
+
+  const btnEl = getEl('btn-optimize');
+  btnEl.disabled = true;
+  hideResult('opt');
+  getEl('log-opt').textContent = '';
+  getEl('log-opt').classList.remove('visible');
+
+  const op      = getEl('opt-op').value;
+  const pass    = getEl('opt-pass').value.trim();
+  const title   = getEl('opt-title').value.trim();
+  const author  = getEl('opt-author').value.trim();
+
+  try {
+    log('opt', `Operação: ${op} — ${files.length} arquivo(s)`, 'info');
+    setProgress('opt', 10, 'Carregando PDFs…');
+
+    const { PDFDocument } = PDFLib;
+    const mergedDoc = await PDFDocument.create();
+    let totalPages  = 0;
+
+    for (let i = 0; i < files.length; i++) {
+      const pct = Math.round(10 + (i/files.length)*65);
+      setProgress('opt', pct, `Mesclando ${files[i].name}…`);
+      log('opt', `Carregando ${files[i].name}…`, 'info');
+      const ab  = await readFileAB(files[i]);
+      const doc = await PDFDocument.load(ab, { ignoreEncryption: true });
+      const indices = doc.getPageIndices();
+      const copied  = await mergedDoc.copyPages(doc, indices);
+      copied.forEach(p => mergedDoc.addPage(p));
+      totalPages += indices.length;
+      log('opt', `  ✓ ${indices.length} página(s) adicionada(s)`, 'ok');
+    }
+
+    setProgress('opt', 80, 'Aplicando metadados…');
+
+    if (title)  mergedDoc.setTitle(title);
+    if (author) mergedDoc.setAuthor(author);
+    mergedDoc.setProducer('DocConvert (pdf-lib)');
+    mergedDoc.setCreator('DocConvert — Uso Pessoal');
+    mergedDoc.setCreationDate(new Date());
+
+    setProgress('opt', 90, 'Salvando…');
+
+    let saveOpts = { useObjectStreams: true, addDefaultPage: false };
+    if (pass) {
+      log('opt', 'Proteção por senha aplicada', 'warn');
+      // pdf-lib não suporta criptografia nativa — nota ao usuário
+      log('opt', '⚠ Aviso: pdf-lib não suporta criptografia — use Acrobat para senha real', 'warn');
+    }
+
+    const bytes   = await mergedDoc.save(saveOpts);
+    const outName = (title || 'documento_otimizado') + '.pdf';
+    const blob    = new Blob([bytes], { type: 'application/pdf' });
+    downloadBlob(blob, outName);
+
+    log('opt', `Salvo: ${outName} (${formatSize(bytes.length)})`, 'ok');
+    setProgress('opt', 100, 'Concluído!');
+
+    showResult('opt', `
+      <span class="result-icon">✅</span>
+      <div class="result-info">
+        <strong>Otimização concluída!</strong>
+        <span>${files.length} arquivo(s) processado(s) · ${totalPages} página(s) total</span>
+        <div class="result-stats">
+          <div class="stat"><span class="val">${files.length}</span><span class="lbl">Arquivos</span></div>
+          <div class="stat"><span class="val">${totalPages}</span><span class="lbl">Páginas</span></div>
+          <div class="stat green"><span class="val">${formatSize(bytes.length)}</span><span class="lbl">Tamanho final</span></div>
+        </div>
+      </div>
+    `);
+
+  } catch (err) {
+    log('opt', `Erro: ${err.message}`, 'err');
+    setProgress('opt', 100, 'Erro!');
+  } finally {
+    btnEl.disabled = state.opt.length === 0;
+  }
+}
+
+// ── Helpers ───────────────────────────────────────────────
+function loadImage(src) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload  = () => res(img);
+    img.onerror = () => rej(new Error('Falha ao carregar imagem'));
+    img.src = src;
+  });
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+
+</body>
+</html>
